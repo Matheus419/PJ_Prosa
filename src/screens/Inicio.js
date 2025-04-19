@@ -1,4 +1,5 @@
 // Importa a barra de status do Expo
+import React from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { LinearGradient } from 'expo-linear-gradient';
 import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
@@ -7,10 +8,10 @@ import { KaushanScript_400Regular } from '@expo-google-fonts/kaushan-script';
 import AppLoading from 'expo-app-loading';
 
 // Importa a imagem do girassol
-import logo from './assets/girassol.png';
+import logo from '../../assets/girassol.png';
 
 // Componente principal do app
-export default function App() {
+export default function Home({navigation}) {
   const [fontsLoaded] = useFonts({
     KaushanScript: KaushanScript_400Regular,
   });
@@ -21,60 +22,66 @@ export default function App() {
 
   return (
     <>
-      <LinearGradient 
-        colors={['#FEF5E6', '#FFFFFF']}
-        style={styles.topBackground}
-      />
+        <LinearGradient 
+            colors={['#FEF5E6', '#FFFFFF']}
+            style={styles.topBackground}
+        />
+        <View style={styles.mainContent}>
+            <View style={styles.container}>
+                <Image source={logo} style={styles.logo} />
+                <View style={styles.titleRow}>
+                    <Text style={styles.titleProsa}>PROSA</Text>
+                    <Text style={styles.titleVida}> VIDA</Text>
+                </View>
+                <StatusBar style="auto" />
+            </View>
 
-      <View style={styles.mainContent}>
-        <View style={styles.container}>
-          <Image source={logo} style={styles.logo} />
-          <View style={styles.titleRow}>
-            <Text style={styles.titleProsa}>PROSA</Text>
-            <Text style={styles.titleVida}> VIDA</Text>
-          </View>
-          <StatusBar style="auto" />
+            <View style={styles.actionsContainer}>
+                <TouchableOpacity style={styles.button}>
+                    <Text style={styles.buttonText}>Criar Cadastro</Text>  
+                </TouchableOpacity>
+
+                <TouchableOpacity style={styles.button}>
+                    <Text style={styles.buttonText}>Criar Cadastro Voluntário</Text>  
+                </TouchableOpacity>
+
+                <TouchableOpacity 
+                style={styles.button}
+                onPress={() => navigation.navigate('Login')}>
+                    <Text style={styles.buttonText}>Já tenho Cadastro</Text>  
+                </TouchableOpacity>
+
+                <Text style={styles.termsText}>Termos</Text>
+            </View>
         </View>
 
-        <View style={styles.actionsContainer}>
-          <TouchableOpacity style={styles.button}>
-            <Text style={styles.buttonText}>Criar Cadastro</Text>  
-          </TouchableOpacity>
-
-          <TouchableOpacity style={styles.button}>
-            <Text style={styles.buttonText}>Já tenho Cadastro</Text>  
-          </TouchableOpacity>
-
-          <Text style={styles.termsText}>Termos</Text>
+        <View style={styles.footer}>
+            <Text style={styles.footerText}>Sobre nós</Text>
+            <Text style={styles.footerText}>Suporte</Text>
+            <Text style={styles.footerText}>Contato</Text>
+            <Text style={styles.footerText}>Instruções</Text>
         </View>
-      </View>
-
-      <View style={styles.footer}>
-        <Text style={styles.footerText}>Sobre nós</Text>
-        <Text style={styles.footerText}>Suporte</Text>
-        <Text style={styles.footerText}>Contato</Text>
-        <Text style={styles.footerText}>Instruções</Text>
-      </View>
     </>
   );
 }
 
 // Estilos da interface
 const styles = StyleSheet.create({
-  topBackground: {
-    position: 'absolute',
-    top: 0,
-    height: '50%',
-    width: '100%',
-    zIndex: -1,
-  },
+    topBackground: {
+        position: 'absolute',
+        top: 0,
+        height: '50%',
+        width: '100%',
+        zIndex: -1,
+      },
 
   mainContent: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     paddingTop: 10,
-    marginTop: -70, // sobe tudo um pouco
+    marginTop: -70,
+    backgroundColor: "#FAF5E6" // sobe tudo um pouco
   },
 
   container: {
