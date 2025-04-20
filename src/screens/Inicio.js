@@ -38,17 +38,18 @@ export default function Home({navigation}) {
 
             <View style={styles.actionsContainer}>
                 <TouchableOpacity style={styles.button}>
-                    <Text style={styles.buttonText}>Criar Cadastro</Text>  
-                </TouchableOpacity>
-
-                <TouchableOpacity style={styles.button}>
                     <Text style={styles.buttonText}>Criar Cadastro Voluntário</Text>  
                 </TouchableOpacity>
 
                 <TouchableOpacity 
                 style={styles.button}
                 onPress={() => navigation.navigate('Login')}>
-                    <Text style={styles.buttonText}>Já tenho Cadastro</Text>  
+                    <Text style={styles.buttonText}>Acesso Administrativo</Text>  
+                </TouchableOpacity>
+                <TouchableOpacity 
+                style={styles.button}
+                onPress={() => navigation.navigate('LoginVoluntario')}>
+                    <Text style={styles.buttonText}>Acesso Voluntário</Text>  
                 </TouchableOpacity>
 
                 <Text style={styles.termsText}>Termos</Text>

@@ -11,7 +11,7 @@ import AppLoading from 'expo-app-loading';
 import logo from '../../assets/girassol.png';
 
 // Componente principal do app
-export default function Login({navigation}) {
+export default function CriarCadastroadm({navigation}) {
   const [fontsLoaded] = useFonts({
     KaushanScript: KaushanScript_400Regular,
   });
@@ -20,28 +20,31 @@ export default function Login({navigation}) {
     return <AppLoading />;
   }
 
+  /* Variaveis */
+  const [nome, setNome] = useState('');
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
-  var emailComp = 'contatomatheushnf@gmail.com'
-  var passwordComp = 'Teste123@'
+  const [confSenha, setConfSenha] = useState('');
 
+  /* Verificação */
   const handleLogin = () => {
     console.log('Email:', email);
     console.log('Senha:', senha);
+    console.log('Nome:', nome);
     // Usar handeLogin para validação banco
-
-    if (!email || !senha || !email.includes('@')){
-        alert("Erro: Preencha todos os campos")
+    if (!nome || !senha || !email || !confSenha || !email.includes('@')){
+        alert("Erro: Preencha todos os campos!")
     }
-
-    else{
-      if (email == emailComp && senha == passwordComp){
-        navigation.navigate('PgLoginIniciado')
-      }
-      else {
-        alert("Login ou senha incorretos!")
-      }
+    else {
+        if(senha == confSenha) {
+            alert(`Usuário ${nome} criado com sucesso!`)
+            navigation.navigate('PgLoginIniciado')
+        }
+        else {
+            alert("Erro: As senhas não são iguais!")
+        }
     }
+    
 
   };
 
@@ -54,13 +57,20 @@ export default function Login({navigation}) {
             <View style={styles.mainContent}>
                 <View style={styles.container}>
                     <Image source={logo} style={styles.logo} />
-                    <View style={styles.titleRow}>
-                        <Text style={styles.titleProsa}>Login Administrativo</Text>
-                    </View>
                     <StatusBar style="auto" />
                 </View>
-
-                <View style={styles.actionsContainer}>
+                <Text style={styles.titleProsa}>Crie seu cadastro</Text>
+                <View style={styles.containerCreate}>
+                    {/* Imput de Nome */}
+                    <TextInput
+                    style={styles.input}
+                    placeholder="Nome Completo"
+                    value={nome}
+                    onChangeText={setNome}
+                    keyboardType="text"
+                    autoCapitalize="none">
+                    </TextInput>
+                    {/* Imput se E-mail */}
                     <TextInput
                     style={styles.input}
                     placeholder="E-mail"
@@ -69,6 +79,7 @@ export default function Login({navigation}) {
                     keyboardType="email-address"
                     autoCapitalize="none">
                     </TextInput>
+                    {/* Imput senha */}
                     <TextInput
                     style={styles.input}
                     placeholder="Senha"
@@ -76,10 +87,15 @@ export default function Login({navigation}) {
                     onChangeText={setSenha}
                     secureTextEntry>
                     </TextInput>
-                    <TouchableOpacity style={styles.recoverKey}
-                    onPress={() => navigation.navigate('RecuperarSenha')}>
-                        <Text style={styles.recoverKeyText}>Esqueceu a senha?</Text>
-                    </TouchableOpacity>
+                    {/* Imput confirmar senha */}
+                    <TextInput
+                    style={styles.input}
+                    placeholder="Confirmar Senha"
+                    value={confSenha}
+                    onChangeText={setConfSenha}
+                    secureTextEntry>
+                    </TextInput>
+
                     <TouchableOpacity style={styles.button} onPress={handleLogin}>
                         <Text style={styles.buttonText}>Acessar</Text>  
                     </TouchableOpacity>
@@ -91,6 +107,11 @@ export default function Login({navigation}) {
 
 // Estilos da interface
 const styles = StyleSheet.create({
+
+    containerCreate: {
+        width: 500,
+        alignItems: "center"
+    },
 
     recoverKey: {
         padding: 10,
@@ -134,11 +155,7 @@ const styles = StyleSheet.create({
     paddingTop: 10,
     marginTop: -70, 
     backgroundColor: "#FAF5E6"// sobe tudo um pouco
-  },
-
-  container: {
-    alignItems: 'center',
-    justifyContent: 'center', 
+    
   },
 
   logo: {
@@ -151,6 +168,7 @@ const styles = StyleSheet.create({
     fontSize: 32,
     color: '#000',
     fontFamily: 'KaushanScript',
+    marginBottom: 30,
   },
 
   titleVida: {

@@ -36,7 +36,7 @@ export default function Login({navigation}) {
 
     else{
       if (email == emailComp && senha == passwordComp){
-        navigation.navigate('PgLoginIniciado')
+        navigation.navigate('PgInicialVoluntario')
       }
       else {
         alert("Login ou senha incorretos!")
@@ -55,7 +55,7 @@ export default function Login({navigation}) {
                 <View style={styles.container}>
                     <Image source={logo} style={styles.logo} />
                     <View style={styles.titleRow}>
-                        <Text style={styles.titleProsa}>Login Administrativo</Text>
+                        <Text style={styles.titleProsa}>Login Voluntário</Text>
                     </View>
                     <StatusBar style="auto" />
                 </View>
