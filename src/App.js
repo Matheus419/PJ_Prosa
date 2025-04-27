@@ -10,6 +10,7 @@ import CriarCadastroAdministrativo from '../src/screens/CriarCadastroAdministrat
 import CriarCadastroProsa from '../src/screens/CriarCadastroProsa'
 import LoginVoluntario from '../src/screens/LoginVoluntario'
 import PgInicialVoluntario from '../src/screens/PgInicialVoluntario'
+import CriarCadastroVoluntario from '../src/screens/CriarCadastroVoluntario'
 
 const Stack = createNativeStackNavigator();
 
@@ -25,6 +26,7 @@ export default function App() {
         <Stack.Screen name="CriarCadastroProsa" component={CriarCadastroProsa} />
         <Stack.Screen name="LoginVoluntario" component={LoginVoluntario} />
         <Stack.Screen name="PgInicialVoluntario" component={PgInicialVoluntario} />
+        <Stack.Screen name="CriarCadastroVoluntario" component={CriarCadastroVoluntario} />
       </Stack.Navigator>
     </NavigationContainer>
   );

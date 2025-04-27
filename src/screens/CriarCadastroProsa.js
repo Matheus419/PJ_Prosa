@@ -99,7 +99,7 @@ export default function CriarCadastroProsa({navigation}) {
                     </TextInput>
 
                     <TouchableOpacity style={styles.button} onPress={handleLogin}>
-                        <Text style={styles.buttonText}>Acessar</Text>  
+                        <Text style={styles.buttonText}>Enviar</Text>  
                     </TouchableOpacity>
                 </View>
             </View>

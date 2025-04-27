@@ -2,7 +2,7 @@
 import React from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { LinearGradient } from 'expo-linear-gradient';
-import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity, Linking } from 'react-native';
 import { useFonts } from 'expo-font';
 import { KaushanScript_400Regular } from '@expo-google-fonts/kaushan-script';
 import AppLoading from 'expo-app-loading';
@@ -20,6 +20,10 @@ export default function Home({navigation}) {
     return <AppLoading />;
   }
 
+  const openSobreNos = () => {
+    Linking.openURL('https://gamma.app/docs/Prosa-Vida-qa3t0jg5666d489?mode=doc')
+  }
+
   return (
     <>
         <LinearGradient 
@@ -33,11 +37,12 @@ export default function Home({navigation}) {
                     <Text style={styles.titleProsa}>PROSA</Text>
                     <Text style={styles.titleVida}> VIDA</Text>
                 </View>
-                <StatusBar style="auto" />
+                <StatusBar style="auto"/>
             </View>
 
             <View style={styles.actionsContainer}>
-                <TouchableOpacity style={styles.button}>
+                <TouchableOpacity style={styles.button}
+                onPress={() => navigation.navigate('CriarCadastroVoluntario')}>
                     <Text style={styles.buttonText}>Criar Cadastro Voluntário</Text>  
                 </TouchableOpacity>
 
@@ -51,16 +56,20 @@ export default function Home({navigation}) {
                 onPress={() => navigation.navigate('LoginVoluntario')}>
                     <Text style={styles.buttonText}>Acesso Voluntário</Text>  
                 </TouchableOpacity>
-
-                <Text style={styles.termsText}>Termos</Text>
             </View>
         </View>
 
         <View style={styles.footer}>
+          <TouchableOpacity
+          onPress={openSobreNos}>
             <Text style={styles.footerText}>Sobre nós</Text>
+          </TouchableOpacity>
+          <TouchableOpacity>
             <Text style={styles.footerText}>Suporte</Text>
+          </TouchableOpacity>
+          <TouchableOpacity>
             <Text style={styles.footerText}>Contato</Text>
-            <Text style={styles.footerText}>Instruções</Text>
+          </TouchableOpacity>
         </View>
     </>
   );
@@ -155,7 +164,5 @@ const styles = StyleSheet.create({
   footerText: {
     color: '#fff',
     fontSize: 13,
-    textAlign: 'center',
-    flex: 1,
   },
 });

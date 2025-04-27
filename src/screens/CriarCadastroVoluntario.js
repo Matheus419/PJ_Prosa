@@ -2,7 +2,7 @@
 import React, {useState} from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { LinearGradient } from 'expo-linear-gradient';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Linking, Image } from 'react-native';
 import { useFonts } from 'expo-font';
 import { KaushanScript_400Regular } from '@expo-google-fonts/kaushan-script';
 import AppLoading from 'expo-app-loading';
@@ -11,7 +11,7 @@ import AppLoading from 'expo-app-loading';
 import logo from '../../assets/girassol.png';
 
 // Componente principal do app
-export default function CriarCadastroadm({navigation}) {
+export default function CriarCadastroProsa({navigation}) {
   const [fontsLoaded] = useFonts({
     KaushanScript: KaushanScript_400Regular,
   });
@@ -22,31 +22,38 @@ export default function CriarCadastroadm({navigation}) {
 
   /* Variaveis */
   const [nome, setNome] = useState('');
+  const [idade, setIdade] = useState('');
+  const [cpf, setCpf] = useState('');
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
-  const [confSenha, setConfSenha] = useState('');
+  const [check, setcheck] = useState('');
 
-  /* Verificação */
+  /* Verificações */
   const handleLogin = () => {
-    console.log('Email:', email);
-    console.log('Senha:', senha);
     console.log('Nome:', nome);
-    // Usar handeLogin para validação banco
-    if (!nome || !senha || !email || !confSenha || !email.includes('@')){
+    console.log('Idade:', idade);
+    console.log('CPF:', cpf);
+    console.log('CPF:', email);
+    console.log('CPF:', senha);
+
+    if (!nome || !idade || !cpf || !email.includes('@')) {
         alert("Erro: Preencha todos os campos!")
     }
-    else {
-        if(senha == confSenha) {
-            alert(`Usuário ${nome} criado com sucesso!`)
-            navigation.navigate('PgLoginIniciado')
+    else{
+        if (idade > 200){
+            alert("Coloque uma idade valida!")
         }
-        else {
-            alert("Erro: As senhas não são iguais!")
+        else{
+            alert(`Usuário ${nome} criado com sucesso!`)
+            navigation.navigate('LoginVoluntario')
         }
     }
     
-
   };
+
+  const openPDF = () => {
+    Linking.openURL('https://drive.google.com/file/d/1B7kj8tyW7ELlVcZsH2emGxY-82bunc55/view?usp=sharing')
+  }
 
   return (
     <>
@@ -63,39 +70,53 @@ export default function CriarCadastroadm({navigation}) {
                 <View style={styles.containerCreate}>
                     {/* Imput de Nome */}
                     <TextInput
-                    style={styles.input}
-                    placeholder="Nome Completo"
-                    value={nome}
-                    onChangeText={setNome}
-                    keyboardType="text"
-                    autoCapitalize="none">
+                        style={styles.input}
+                        placeholder="Nome Completo"
+                        value={nome}
+                        onChangeText={setNome}
+                        keyboardType="text"
+                        autoCapitalize="none">
                     </TextInput>
-                    {/* Imput se E-mail */}
+                    {/* Idade */}
                     <TextInput
-                    style={styles.input}
-                    placeholder="E-mail"
-                    value={email}
-                    onChangeText={setEmail}
-                    keyboardType="email-address"
-                    autoCapitalize="none">
+                        style={styles.input}
+                        placeholder="Idade"
+                        value={idade}
+                        onChangeText={setIdade}
+                        keyboardType="numeric"
+                        autoCapitalize="none">
                     </TextInput>
-                    {/* Imput senha */}
+                    {/* CPF */}
                     <TextInput
-                    style={styles.input}
-                    placeholder="Senha"
-                    value={senha}
-                    onChangeText={setSenha}
-                    secureTextEntry>
+                        style={styles.input}
+                        placeholder="CPF"
+                        value={cpf}
+                        onChangeText={setCpf}
+                        keyboardType="numeric"
+                        autoCapitalize="none">
                     </TextInput>
-                    {/* Imput confirmar senha */}
                     <TextInput
-                    style={styles.input}
-                    placeholder="Confirmar Senha"
-                    value={confSenha}
-                    onChangeText={setConfSenha}
-                    secureTextEntry>
+                        style={styles.input}
+                        placeholder="E-mail"
+                        value={email}
+                        onChangeText={setEmail}
+                        keyboardType="email-address"
+                        autoCapitalize="none">
                     </TextInput>
-
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Senha"
+                        value={senha}
+                        secureTextEntry={true}
+                        onChangeText={setSenha}
+                        keyboardType="password"
+                        autoCapitalize="none">
+                    </TextInput>
+                    <TouchableOpacity 
+                    style={styles.termos}
+                    onPress={openPDF}>
+                        <Text>VEJA OS TERMOS DE USO</Text>
+                    </TouchableOpacity>
                     <TouchableOpacity style={styles.button} onPress={handleLogin}>
                         <Text style={styles.buttonText}>Enviar</Text>  
                     </TouchableOpacity>
@@ -129,6 +150,15 @@ const styles = StyleSheet.create({
         width: '100%',
         zIndex: -1,
       },
+
+    termos: {
+        backgroundColor: '#D6A500',
+        width: 250,
+        alignItems: 'center',
+        padding: 15,
+        borderRadius: 10,
+        color: '#FAF5E6',
+    },
 
   input: {
     width: 250,
