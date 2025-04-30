@@ -3,7 +3,7 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-const config = {
+export const config = {
     user: process.env.DATABASE_USER,
     password: process.env.DATABASE_PASS,
     server: process.env.DATABASE_HOST, 
