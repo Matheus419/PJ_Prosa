@@ -8,7 +8,7 @@ import { KaushanScript_400Regular } from '@expo-google-fonts/kaushan-script';
 import AppLoading from 'expo-app-loading';
 
 // Importa a imagem do girassol
-import logo from '../../assets/girassol.png';
+import logo from '../../../assets/girassol.png';
 
 // Componente principal do app
 export default function RecuperarSenha({navigation}) {

@@ -8,7 +8,7 @@ import { KaushanScript_400Regular } from '@expo-google-fonts/kaushan-script';
 import AppLoading from 'expo-app-loading';
 
 // Importa a imagem do girassol
-import logo from '../../assets/girassol.png';
+import logo from '../../../assets/girassol.png';
 
 // Componente principal do app
 export default function Login({navigation}) {
@@ -22,8 +22,6 @@ export default function Login({navigation}) {
 
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
-  var emailComp = 'contatomatheushnf@gmail.com'
-  var passwordComp = 'Teste123@'
 
   const handleLogin = () => {
     console.log('Email:', email);

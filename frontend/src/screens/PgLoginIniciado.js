@@ -7,7 +7,7 @@ import { KaushanScript_400Regular } from '@expo-google-fonts/kaushan-script';
 import AppLoading from 'expo-app-loading';
 
 // Importa a imagem do girassol
-import logo from '../../assets/girassol.png';
+import logo from '../../../assets/girassol.png';
 
 export default function PgLoginIniciado({navigation}) {
       const [fontsLoaded] = useFonts({

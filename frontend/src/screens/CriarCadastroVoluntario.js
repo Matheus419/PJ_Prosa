@@ -6,9 +6,10 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet, Linking, Image } f
 import { useFonts } from 'expo-font';
 import { KaushanScript_400Regular } from '@expo-google-fonts/kaushan-script';
 import AppLoading from 'expo-app-loading';
+import api from '../api'
 
 // Importa a imagem do girassol
-import logo from '../../assets/girassol.png';
+import logo from '../../../assets/girassol.png';
 
 // Componente principal do app
 export default function CriarCadastroProsa({navigation}) {
@@ -26,10 +27,9 @@ export default function CriarCadastroProsa({navigation}) {
   const [cpf, setCpf] = useState('');
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
-  const [check, setcheck] = useState('');
 
   /* Verificações */
-  const handleLogin = () => {
+  const handleLogin = async() => {
     console.log('Nome:', nome);
     console.log('Idade:', idade);
     console.log('CPF:', cpf);
@@ -38,18 +38,31 @@ export default function CriarCadastroProsa({navigation}) {
 
     if (!nome || !idade || !cpf || !email.includes('@')) {
         alert("Erro: Preencha todos os campos!")
+        return;
     }
+    else {
+    if (idade > 200){
+        alert("Coloque uma idade valida!")
+        return;
+      }
     else{
-        if (idade > 200){
-            alert("Coloque uma idade valida!")
-        }
-        else{
-            alert(`Usuário ${nome} criado com sucesso!`)
-            navigation.navigate('LoginVoluntario')
-        }
+      alert(`Usuário ${nome} criado com sucesso!`);
+      navigation.navigate('LoginVoluntario');
+    try {
+      const resposta = await api.post('/voluntariosCadastro', {
+        nome,
+        idade,
+        cpf,
+        email,
+        senha,
+      });
+
+    } catch (erro) {
+      console.error(erro);
+      alert('Erro ao cadastrar voluntário!');
     }
     
-  };
+  }}};
 
   const openPDF = () => {
     Linking.openURL('https://drive.google.com/file/d/1B7kj8tyW7ELlVcZsH2emGxY-82bunc55/view?usp=sharing')

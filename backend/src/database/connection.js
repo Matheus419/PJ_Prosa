@@ -18,3 +18,14 @@ export const config = {
 sql.connect(config)
     .then(() => console.log("✅ Conectado com sucesso ao banco Azure SQL!"))
     .catch(err => console.error("❌ Erro de conexão:", err));
+
+    const pool = new sql.ConnectionPool(config);
+    const poolConnect = pool.connect();
+    
+    poolConnect
+      .then(() => console.log('✅ Conectado com sucesso ao banco Azure SQL!'))
+      .catch(err => console.error('❌ Erro de conexão:', err));
+    
+    // Exporta o pool e o sql
+    export { pool, sql };
+
