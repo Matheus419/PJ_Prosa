@@ -45,9 +45,11 @@ export default function CriarCadastroProsa({navigation}) {
         alert("Coloque uma idade valida!")
         return;
       }
-    else{
-      alert(`Usuário ${nome} criado com sucesso!`);
-      navigation.navigate('LoginVoluntario');
+    else {
+      if (idade < 18) {
+        alert("Você precisa ser maior de idade!")
+      }
+    }}
     try {
       const resposta = await api.post('/voluntariosCadastro', {
         nome,
@@ -57,12 +59,15 @@ export default function CriarCadastroProsa({navigation}) {
         senha,
       });
 
+      alert(`Usuário ${nome} criado com sucesso!`);
+      navigation.navigate('LoginVoluntario');
+
     } catch (erro) {
       console.error(erro);
       alert('Erro ao cadastrar voluntário!');
     }
     
-  }}};
+  };
 
   const openPDF = () => {
     Linking.openURL('https://drive.google.com/file/d/1B7kj8tyW7ELlVcZsH2emGxY-82bunc55/view?usp=sharing')

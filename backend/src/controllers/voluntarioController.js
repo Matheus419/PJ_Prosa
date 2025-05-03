@@ -30,25 +30,38 @@ function formatarCpfInt(cpfInt) {
   
     try {
       const { pool, sql } = require('../database/connection');
+  
+      // 1️⃣ Verifica se o e-mail ou cpf já estão cadastrados
+      const resultado = await pool.request()
+        .input('cpf', sql.BigInt, cpfNumInt)
+        .input('email', sql.VarChar, email)
+        .query(`
+          SELECT * FROM voluntarios 
+          WHERE cpf = @cpf OR email = @email
+        `);
+  
+      if (resultado.recordset.length > 0) {
+        return res.status(400).json({ erro: 'CPF ou e-mail já cadastrados.' });
+      }
+  
+      // 2️⃣ Insere o usuário
       await pool.request()
-        .input('nome', sql.VarChar,nome)
-        .input('idade', sql.Int,idade)
-        .input('cpf', sql.BigInt,cpfNumInt)
-        .input('cpfstr', sql.VarChar,cpfFormatado)
-        .input('email', sql.VarChar,email)
-        .input('openpassword', sql.VarChar,senha)
-        .input('passwordhash', sql.VarChar,senhaHash)
-        
-        .query(`INSERT INTO voluntarios (nome, idade, cpf, cpfstr, email, openpassword, passwordhash)
-            values
-            (@nome, @idade, @cpf, @cpfstr, @email, @openpassword, @passwordhash)`);
-    
-    return
-      res.status(201).json({ mensagem: 'Usuário cadastrado com sucesso!' });
+        .input('nome', sql.VarChar, nome)
+        .input('idade', sql.Int, idade)
+        .input('cpf', sql.BigInt, cpfNumInt)
+        .input('cpfstr', sql.VarChar, cpfFormatado)
+        .input('email', sql.VarChar, email)
+        .input('openpassword', sql.VarChar, senha)
+        .input('passwordhash', sql.VarChar, senhaHash)
+        .query(`
+          INSERT INTO voluntarios (nome, idade, cpf, cpfstr, email, openpassword, passwordhash)
+          VALUES (@nome, @idade, @cpf, @cpfstr, @email, @openpassword, @passwordhash)
+        `);
+  
+      return res.status(201).json({ mensagem: 'Usuário cadastrado com sucesso!' });
     } catch (erro) {
       console.error(erro);
       res.status(500).json({ erro: 'Erro ao inserir no banco de dados.' });
     }
   };
-  
   module.exports = { criarUsuario };
