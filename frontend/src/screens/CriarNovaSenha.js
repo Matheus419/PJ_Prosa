@@ -12,7 +12,7 @@ import api from '../api'
 import logo from '../../../assets/girassol.png';
 
 // Componente principal do app
-export default function RecuperarSenha({navigation}) {
+export default function RecuperarSenha({navigation, route}) {
   const [fontsLoaded] = useFonts({
     KaushanScript: KaushanScript_400Regular,
   });
@@ -21,26 +21,33 @@ export default function RecuperarSenha({navigation}) {
     return <AppLoading />;
   }
 
-  const [email, setEmail] = useState('');
+  const {email} = route.params;
+
+  const [confirmNovaSenha, setConfirmNovaSenha] = useState('');
+
+  const [novaSenha, setNovaSenha] = useState('');
+
 
   const validacao = async () => {
-    console.log('Email:', email);
-    // Usar handeLogin para validação banco
-    if (!email || !email.includes('@')) {
-        alert("Erro: Você não preencheu todos os campos!")
-        return
+    if (confirmNovaSenha != novaSenha) {
+      alert('Erro: As senhas precisam ser iguais!')
     }
+
+    else{
+
     try {
-      const response = await api.get(`/buscarEmailRedefinirSenha/${email}`);
+      await api.put(`/redefinirSenha/${email}`, {
+        novaSenha: novaSenha, // variável com a senha digitada pelo usuário
+      });
   
-      if (response.data.email) {
-        navigation.navigate('CriarNovaSenha', { email: response.data.email });
-      }
+      alert('Senha redefinida com sucesso!');
+      navigation.navigate('Home'); // ou onde preferir redirecionar
     } catch (error) {
-      console.error('Erro ao buscar e-mail:', error);
-      alert('E-mail não encontrado.');
+      console.error('Erro ao redefinir senha:', error);
+      alert('Erro ao redefinir senha.');
     }
-}
+  }
+  };
 
   return (
     <>
@@ -58,15 +65,26 @@ export default function RecuperarSenha({navigation}) {
                 </View>
 
                 <View style={styles.actionsContainer}>
-                    <Text style={styles.titleDescripiton}>Digite um E-mail para recuperar seu acesso!</Text>
+                    <Text style={styles.titleDescripiton}>Digite sua nova senha de acesso para o e-mail: {email}.</Text>
+
                     <TextInput
                     style={styles.input}
-                    placeholder="E-mail"
-                    value={email}
-                    onChangeText={setEmail}
-                    keyboardType="email-address"
+                    placeholder="Nova Senha"
+                    value={novaSenha}
+                    onChangeText={setNovaSenha}
+                    secureTextEntry
                     autoCapitalize="none">
                     </TextInput>
+
+                    <TextInput
+                    style={styles.input}
+                    placeholder="Confirmar Nova Senha"
+                    value={confirmNovaSenha}
+                    onChangeText={setConfirmNovaSenha}
+                    secureTextEntry
+                    autoCapitalize="none">
+                    </TextInput>
+
                     <TouchableOpacity style={styles.button} onPress={validacao}>
                         <Text style={styles.buttonText}>Enviar</Text>  
                     </TouchableOpacity>
