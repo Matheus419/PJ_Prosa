@@ -6,6 +6,7 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image } from 'reac
 import { useFonts } from 'expo-font';
 import { KaushanScript_400Regular } from '@expo-google-fonts/kaushan-script';
 import AppLoading from 'expo-app-loading';
+import api from '../api'
 
 // Importa a imagem do girassol
 import logo from '../../../assets/girassol.png';
@@ -27,7 +28,7 @@ export default function CriarCadastroProsa({navigation}) {
   const [assuntosGosta, setAssuntosGosta] = useState('');
 
   /* Verificações */
-  const handleLogin = () => {
+  const handleLogin = async () => {
     console.log('Email:', nome);
     console.log('Senha:', idade);
     console.log('Nome:', assuntosEvitar);
@@ -36,14 +37,23 @@ export default function CriarCadastroProsa({navigation}) {
     if (!nome, !idade, !assuntosEvitar, !assuntosGosta) {
         alert("Erro: Preencha todos os campos!")
     }
-    else{
-        if (idade > 200){
-            alert("Coloque uma idade valida!")
-        }
-        else{
-            alert(`Usuário ${nome} criado com sucesso!`)
-            navigation.navigate('PgLoginIniciado')
-        }
+    if (idade > 200) {
+      alert('Erro: Coloque uma idade Válida!')
+    }
+
+    try {
+      const resposta = await api.post('/criarCadastroProsa/Serena', {
+        nome,
+        idade,
+        assuntosEvitar,
+        assuntosGosta,
+      });
+
+      navigation.navigate('Login');
+
+    } catch (erro) {
+      console.error(erro);
+      alert('Erro ao cadastrar voluntário!');
     }
     
   };

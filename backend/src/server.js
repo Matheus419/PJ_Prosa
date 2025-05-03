@@ -6,6 +6,7 @@ const criarCadastroAdministrativo = require('./Routes/administrativoCadastro')
 const administrativoLogin = require('./Routes/administrativoLogin')
 const buscarEmailRecuperarSenha = require('./Routes/buscarEmailRedefinirSenha')
 const redefinirSenha = require('./Routes/alterarSenha')
+const criarCadastroProsa = require('./Routes/criarCadastroProsa')
 
 app.use(express.json());
 app.use('/api', voluntarioRoute); // Rota enviar Usuários
@@ -14,6 +15,7 @@ app.use('/api', criarCadastroAdministrativo); // Rota de cadastro usuários admi
 app.use('/api', administrativoLogin); // Rota de validação de login
 app.use('/api', buscarEmailRecuperarSenha); // Rota de buscar email de redefinir senha!
 app.use('/api', redefinirSenha); // Rota de redefinir senha!
+app.use('/api', criarCadastroProsa); // Rota de criar cadastro prosa!
 
 app.listen(3001, () => {
   console.log('Servidor rodando na porta 3001');
