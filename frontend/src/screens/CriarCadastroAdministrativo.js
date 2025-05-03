@@ -6,6 +6,7 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image } from 'reac
 import { useFonts } from 'expo-font';
 import { KaushanScript_400Regular } from '@expo-google-fonts/kaushan-script';
 import AppLoading from 'expo-app-loading';
+import api from '../api'
 
 // Importa a imagem do girassol
 import logo from '../../../assets/girassol.png';
@@ -23,29 +24,41 @@ export default function CriarCadastroadm({navigation}) {
   /* Variaveis */
   const [nome, setNome] = useState('');
   const [email, setEmail] = useState('');
+  const [cpf, setCpf] = useState('');
   const [senha, setSenha] = useState('');
   const [confSenha, setConfSenha] = useState('');
 
   /* Verificação */
-  const handleLogin = () => {
-    console.log('Email:', email);
-    console.log('Senha:', senha);
+  const handleLogin = async () => {
     console.log('Nome:', nome);
-    // Usar handeLogin para validação banco
-    if (!nome || !senha || !email || !confSenha || !email.includes('@')){
-        alert("Erro: Preencha todos os campos!")
-    }
-    else {
-        if(senha == confSenha) {
-            alert(`Usuário ${nome} criado com sucesso!`)
-            navigation.navigate('PgLoginIniciado')
-        }
-        else {
-            alert("Erro: As senhas não são iguais!")
-        }
-    }
-    
+    console.log('CPF:', cpf);
+    console.log('CPF:', email);
+    console.log('CPF:', senha);
 
+    if (!nome || !senha || !email || !confSenha || !cpf || !email.includes('@')){
+      alert("Erro: Preencha todos os campos!")
+      return
+    }
+    if (senha != confSenha) {
+      alert("Erro: As senhas não são iguais!")
+      return
+    }
+    else{
+      alert(`Usuário ${nome} criado com sucesso!`);
+      navigation.navigate('Login');};
+    
+    try {
+      const resposta = await api.post('/AdministrativoCadastro', {
+        nome,
+        cpf,
+        email,
+        senha,
+      });
+
+    } catch (erro) {
+      console.error(erro);
+      alert('Erro ao cadastrar voluntário!');
+    }
   };
 
   return (
@@ -70,7 +83,7 @@ export default function CriarCadastroadm({navigation}) {
                     keyboardType="text"
                     autoCapitalize="none">
                     </TextInput>
-                    {/* Imput se E-mail */}
+                    {/* Imput de E-mail */}
                     <TextInput
                     style={styles.input}
                     placeholder="E-mail"
@@ -79,7 +92,16 @@ export default function CriarCadastroadm({navigation}) {
                     keyboardType="email-address"
                     autoCapitalize="none">
                     </TextInput>
-                    {/* Imput senha */}
+                    {/* Imput de CPF */}
+                    <TextInput
+                    style={styles.input}
+                    placeholder="CPF"
+                    value={cpf}
+                    onChangeText={setCpf}
+                    keyboardType="numeric"
+                    autoCapitalize="none">
+                    </TextInput>
+                    {/* Imput de  senha */}
                     <TextInput
                     style={styles.input}
                     placeholder="Senha"
@@ -87,7 +109,7 @@ export default function CriarCadastroadm({navigation}) {
                     onChangeText={setSenha}
                     secureTextEntry>
                     </TextInput>
-                    {/* Imput confirmar senha */}
+                    {/* Imput de confirmar senha */}
                     <TextInput
                     style={styles.input}
                     placeholder="Confirmar Senha"

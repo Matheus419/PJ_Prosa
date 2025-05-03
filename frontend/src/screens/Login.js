@@ -6,6 +6,7 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image } from 'reac
 import { useFonts } from 'expo-font';
 import { KaushanScript_400Regular } from '@expo-google-fonts/kaushan-script';
 import AppLoading from 'expo-app-loading';
+import api from '../api'
 
 // Importa a imagem do girassol
 import logo from '../../../assets/girassol.png';
@@ -23,7 +24,7 @@ export default function Login({navigation}) {
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
 
-  const handleLogin = () => {
+  const handleLogin = async() => {
     console.log('Email:', email);
     console.log('Senha:', senha);
     // Usar handeLogin para validação banco
@@ -32,12 +33,23 @@ export default function Login({navigation}) {
         alert("Erro: Preencha todos os campos")
     }
 
-    else{
-      if (email == emailComp && senha == passwordComp){
-        navigation.navigate('PgLoginIniciado')
+    try {
+      const resposta = await api.post('/adminLogin', {
+        email,
+        senha,
+      });
+  
+      if (resposta.status === 200) {
+        alert("Login realizado com sucesso!");
+        navigation.navigate('PgLoginIniciado', { nome: resposta.data.usuario.nome }); // ou qualquer rota da home
       }
-      else {
-        alert("Login ou senha incorretos!")
+    } catch (erro) {
+      console.error(erro);
+  
+      if (erro.response && erro.response.data && erro.response.data.erro) {
+        alert(`Erro: ${erro.response.data.erro}`);
+      } else {
+        alert("Erro ao tentar fazer login.");
       }
     }
 
