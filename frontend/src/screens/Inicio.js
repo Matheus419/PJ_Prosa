@@ -56,6 +56,11 @@ export default function Home({navigation}) {
                 onPress={() => navigation.navigate('LoginVoluntario')}>
                     <Text style={styles.buttonText}>Acesso Voluntário</Text>  
                 </TouchableOpacity>
+                <TouchableOpacity 
+                style={styles.button}
+                onPress={() => navigation.navigate('VideoConferencia')}>
+                    <Text style={styles.buttonText}>Teste VideoConferencia</Text>  
+                </TouchableOpacity>
             </View>
         </View>
 

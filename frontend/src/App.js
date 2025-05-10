@@ -12,6 +12,7 @@ import LoginVoluntario from '../src/screens/LoginVoluntario'
 import PgInicialVoluntario from '../src/screens/PgInicialVoluntario'
 import CriarCadastroVoluntario from '../src/screens/CriarCadastroVoluntario'
 import CriarNovaSenha from '../src/screens/CriarNovaSenha'
+import VideoConferencia from '../src/screens/VideoConferencia'; // ajuste o caminho se necessário
 
 const Stack = createNativeStackNavigator();
 
@@ -29,6 +30,7 @@ export default function App() {
         <Stack.Screen name="PgInicialVoluntario" component={PgInicialVoluntario} />
         <Stack.Screen name="CriarCadastroVoluntario" component={CriarCadastroVoluntario} />
         <Stack.Screen name="CriarNovaSenha" component={CriarNovaSenha} />
+        <Stack.Screen name="VideoConferencia" component={VideoConferencia} /> 
       </Stack.Navigator>
     </NavigationContainer>
   );
