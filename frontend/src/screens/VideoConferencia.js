@@ -1,14 +1,19 @@
-import React, { useEffect } from 'react';
-import { View, Text, Linking, StyleSheet } from 'react-native';
+import React from 'react';
+import { View, StyleSheet } from 'react-native';
+import { WebView } from 'react-native-webview';
 
 export default function VideoConferencia() {
-  useEffect(() => {
-    Linking.openURL('https://meet.jit.si/ProsaCam2025#config.disableDeepLinking=true');
-  }, []);
-
   return (
     <View style={styles.container}>
-      <Text>Abrindo a videochamada no navegador...</Text>
+      <WebView
+        source={{
+          uri: 'https://console-api-sig.zegocloud.com/s/uikit/VRzIzm'
+        }}
+        style={{ flex: 1 }}
+        javaScriptEnabled
+        allowsInlineMediaPlayback
+        mediaPlaybackRequiresUserAction={false}
+      />
     </View>
   );
 }
@@ -16,7 +21,8 @@ export default function VideoConferencia() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
   },
 });
+
+
+
